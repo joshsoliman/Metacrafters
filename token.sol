@@ -4,8 +4,8 @@ pragma solidity 0.8.18;
 contract MyToken {
 
     //public variables to store the token details
-    string public tokenName = "META";
-    string public tokenAbbrv = "MTA";
+    string public tokenName = "JOSH";
+    string public tokenAbbrv = "SOLIMAN";
     uint public totalSupply = 0;
 
     //mapping to keep track of each address's balance
@@ -26,5 +26,5 @@ contract MyToken {
     }
 }
 
-
-
+    
+    
