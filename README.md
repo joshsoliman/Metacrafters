@@ -23,56 +23,57 @@ Step 1: Create a New File
 
 Open Remix.
 Create a new file by clicking the "+" icon in the left-hand sidebar.
-Name the file (e.g., MyToken.sol).
+Name the file (e.g., token.sol).
 Step 2: Copy the Code
 
 Paste the following code into your new file:
-// SPDX-License-Identifier: MIT
-pragma solidity 0.8.18;
 
-contract MyToken {
+    // SPDX-License-Identifier: MIT
+    pragma solidity 0.8.18;
 
-    // Public variables for token details
-    string public tokenName = "JOSH";
-    string public tokenAbbrv = "SOLIMAN";
-    uint public totalSupply = 0;
+    contract MyToken {
 
-    // Mapping to store balances
-    mapping(address => uint) public balances;
-
-    // Owner address
-    address public owner;
-
-    // Events
-    event Mint(address indexed to, uint value);
-    event Burn(address indexed from, uint value);
-
-    // Constructor
-    constructor() {
-        owner = msg.sender; // Set deployer as owner
+        // Public variables for token details
+        string public tokenName = "JOSH";
+        string public tokenAbbrv = "SOLIMAN";
+        uint public totalSupply = 0;
+    
+        // Mapping to store balances
+        mapping(address => uint) public balances;
+    
+        // Owner address
+        address public owner;
+    
+        // Events
+        event Mint(address indexed to, uint value);
+        event Burn(address indexed from, uint value);
+    
+        // Constructor
+        constructor() {
+            owner = msg.sender; // Set deployer as owner
+        }
+    
+        // Modifier for owner-only functions
+        modifier onlyOwner() {
+            require(msg.sender == owner, "Only the owner can perform this action");
+            _;
+        }
+    
+        // Mint function
+        function mint(address _address, uint _value) public onlyOwner {
+            totalSupply += _value;               
+            balances[_address] += _value;
+            emit Mint(_address, _value);        
+        }
+    
+        // Burn function
+        function burn(address _address, uint _value) public onlyOwner {
+            require(balances[_address] >= _value, "Insufficient balance to burn");
+            totalSupply -= _value;
+            balances[_address] -= _value;
+            emit Burn(_address, _value);
+        }
     }
-
-    // Modifier for owner-only functions
-    modifier onlyOwner() {
-        require(msg.sender == owner, "Only the owner can perform this action");
-        _;
-    }
-
-    // Mint function
-    function mint(address _address, uint _value) public onlyOwner {
-        totalSupply += _value;               
-        balances[_address] += _value;
-        emit Mint(_address, _value);        
-    }
-
-    // Burn function
-    function burn(address _address, uint _value) public onlyOwner {
-        require(balances[_address] >= _value, "Insufficient balance to burn");
-        totalSupply -= _value;
-        balances[_address] -= _value;
-        emit Burn(_address, _value);
-    }
-}
 
 Step 3: Compile the Contract
 
