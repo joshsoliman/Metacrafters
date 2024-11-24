@@ -24,6 +24,7 @@ Step 1: Create a New File
 Open Remix.
 Create a new file by clicking the "+" icon in the left-hand sidebar.
 Name the file (e.g., token.sol).
+
 Step 2: Copy the Code
 
 Paste the following code into your new file:
