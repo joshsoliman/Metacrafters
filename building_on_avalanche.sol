@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.20;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
@@ -18,6 +18,11 @@ contract DegenToken is ERC20, Ownable {
 
     function burn(uint256 amount) external {
         _burn(msg.sender, amount);
+    }
+
+    function transfer(address to, uint256 amount) public override returns (bool success) {
+        success = super.transfer(to, amount);
+        return success;
     }
 
     function setItemPrice(uint256 itemId, uint256 price) external onlyOwner {
