@@ -30,9 +30,5 @@ contract DegenToken is ERC20, Ownable {
         require(balanceOf(msg.sender) >= price, "Insufficient token balance");
 
         _burn(msg.sender, price);
-        
-        emit ItemRedeemed(msg.sender, itemId, price);
     }
-
-    event ItemRedeemed(address indexed user, uint256 indexed itemId, uint256 price);
 }
