@@ -5,8 +5,8 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract DegenToken is ERC20, Ownable {
-    
     mapping(uint256 => uint256) public itemPrices;
+    mapping(address => mapping(uint256 => uint256)) public redeemedItems;
 
     constructor(uint256 initialSupply) ERC20("Degen", "DGN") Ownable(msg.sender) {
         _mint(msg.sender, initialSupply);
@@ -20,11 +20,6 @@ contract DegenToken is ERC20, Ownable {
         _burn(msg.sender, amount);
     }
 
-    function transfer(address to, uint256 amount) public override returns (bool success) {
-        success = super.transfer(to, amount);
-        return success;
-    }
-
     function setItemPrice(uint256 itemId, uint256 price) external onlyOwner {
         itemPrices[itemId] = price;
     }
@@ -35,5 +30,14 @@ contract DegenToken is ERC20, Ownable {
         require(balanceOf(msg.sender) >= price, "Insufficient token balance");
 
         _burn(msg.sender, price);
+        redeemedItems[msg.sender][itemId] += 1;
+
+        emit ItemRedeemed(msg.sender, itemId, price);
     }
+
+    function getRedemptionCount(address account, uint256 itemId) external view returns (uint256) {
+        return redeemedItems[account][itemId];
+    }
+    
+    event ItemRedeemed(address indexed redeemer, uint256 indexed itemId, uint256 price);
 }
